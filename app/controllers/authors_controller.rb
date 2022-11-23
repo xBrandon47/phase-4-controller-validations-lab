@@ -7,9 +7,13 @@ class AuthorsController < ApplicationController
   end
 
   def create
-    author = Author.create(author_params)
+    author = Author.create!(author_params)
+    # to rise an expection if is not vaild then it will rise a expection 
 
     render json: author, status: :created
+    #we're assigning 
+  rescue ActiveRecord::RecordInvalid => invalid 
+    render json: {errors: invalid.record.errors}, status: :unprocessable_entity
   end
 
   private
